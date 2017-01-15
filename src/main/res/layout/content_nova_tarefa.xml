@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_nova_tarefa"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="br.com.carlos.ceciliaapp.activity.NovaTarefaActivity"
+    tools:showIn="@layout/activity_nova_tarefa">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_below="@+id/edtxtTituloNovaTarefaLayout"
+                android:id="@+id/txtPeriodicidade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Periodicidade" />
+
+            <Spinner
+                android:layout_below="@+id/txtPeriodicidade"
+                android:id="@+id/spinnerPeriodicidadeTarefa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/periodicidades_array" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/edtxtTituloNovaTarefaLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+                <EditText
+                    android:id="@+id/edtxtTituloNovaTarefa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Título"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!--Inputs de periodo customizado-->
+            <LinearLayout
+                android:id="@+id/periodoCustomizadoContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinnerPeriodicidadeTarefa"
+                android:visibility="gone">
+
+                <!--Inicio-->
+                <RelativeLayout
+                    android:id="@+id/periodoCustomizadoInicioContainer"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true">
+
+                    <TextView
+                        android:id="@+id/txtPeriodicidadeInicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Iniciar à partir do dia:" />
+
+                    <EditText
+                        android:id="@+id/edtxtPeriodoInicio"
+                        android:layout_below="@+id/txtPeriodicidadeInicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Dia de início"
+                        android:inputType="date"
+                        android:maxLines="1" />
+
+                </RelativeLayout>
+
+                <!--Intervalo-->
+                <RelativeLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="50"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/periodoCustomizadoInicioContainer">
+
+                    <TextView
+                        android:id="@+id/txtPeriodicidadeIntervalo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_alignParentRight="true"
+                        android:text="Intervalo em dias:" />
+
+                    <EditText
+                        android:id="@+id/edtxtPeriodoIntervalo"
+                        android:layout_below="@+id/txtPeriodicidadeIntervalo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:hint="Intervalo"
+                        android:inputType="number"
+                        android:maxLines="1" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_below="@+id/periodoCustomizadoContainer"
+                android:id="@+id/txtTarefaGrupo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Grupo" />
+
+            <Spinner
+                android:layout_below="@+id/txtTarefaGrupo"
+                android:id="@+id/spinnerTarefaGrupo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/periodicidades_array" />
+
+            <TextView
+                android:layout_below="@+id/spinnerTarefaGrupo"
+                android:id="@+id/txtTarefaResponsavel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Responsável" />
+
+            <Spinner
+                android:layout_below="@+id/txtTarefaResponsavel"
+                android:id="@+id/spinnerTarefaResponsavel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/periodicidades_array" />
+
+            <Button
+                android:layout_below="@id/spinnerTarefaResponsavel"
+                android:id="@+id/btnCadastrarTarefa"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:padding="10dp"
+                android:text="CADASTRAR"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

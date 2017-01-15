@@ -1,0 +1,97 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/txtTituloTarefa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Limpar o quarto"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/holo_red_light"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
+
+    <RelativeLayout
+        android:id="@+id/numberOfUsersContainer"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgNumberOfUsers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/btn_circle_pressed" />
+
+        <TextView
+            android:id="@+id/txtNumberOfUsersValor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/dataContainer"
+        android:layout_below="@+id/txtTituloTarefa"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtDataLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data: "
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/txtDataValor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="04/01/2016"
+            android:textColor="@android:color/black"
+            android:textSize="15dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/dataContainer"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtDonoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dono: "
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/txtDonoValor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Renato"
+            android:textColor="@android:color/black"
+            android:textSize="15dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

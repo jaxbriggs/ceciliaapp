@@ -1,0 +1,202 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.carlos.ceciliaapp.fragment.AvaliarFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txtTituloTarefa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:textColor="@android:color/holo_red_light"
+                android:text="Limpar o quarto da Vi"/>
+
+            <!--Data de conclusão-->
+            <LinearLayout
+                android:id="@+id/dataConclusaoContainer"
+                android:layout_below="@+id/txtTituloTarefa"
+                android:layout_margin="16dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtDataConclusaoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Data de Conclusão: "
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:textSize="15dp"/>
+
+                <TextView
+                    android:id="@+id/txtDataConclusaoValor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="04/01/2016"
+                    android:textColor="@android:color/black"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+
+            <!--Dono-->
+            <LinearLayout
+                android:id="@+id/dataDonoContainer"
+                android:layout_below="@+id/dataConclusaoContainer"
+                android:layout_margin="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtDonoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dono: "
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:textSize="15dp"/>
+
+                <TextView
+                    android:id="@+id/txtDonoValor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Renato"
+                    android:textColor="@android:color/black"
+                    android:textSize="15dp"/>
+
+            </LinearLayout>
+
+            <!--Equipe-->
+            <LinearLayout
+                android:id="@+id/dataEquipeContainer"
+                android:layout_below="@+id/dataDonoContainer"
+                android:layout_margin="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtEquipeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ajudantes: "
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:textSize="15dp"/>
+
+                <Button
+                    android:id="@+id/btnVerEquipe"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="EQUIPE"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/avaliarLine"
+                android:layout_below="@+id/dataEquipeContainer"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:id="@+id/txtTarefaConcluida"
+                android:layout_below="@+id/avaliarLine"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:text="A tarefa foi concluída?"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="15dp"/>
+
+            <RadioGroup
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTarefaConcluida"
+                android:id="@+id/rdgrpTarefaConcluida"
+                android:checkedButton="@+id/rdTarefaConcluidaNao">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rdTarefaConcluidaSim"
+                    android:text="Sim" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rdTarefaConcluidaNao"
+                    android:text="Não" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/notaContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rdgrpTarefaConcluida"
+                android:orientation="horizontal"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/txtDeSuaNota"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content"
+                    android:text="De sua nota:"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:textSize="15dp"/>
+
+                <Spinner
+                    android:id="@+id/spinnerNotaAvaliacao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:entries="@array/periodicidades_array" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnAvaliar"
+                android:layout_below="@+id/notaContainer"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginTop="16dp"
+                android:text="AVALIAR"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</FrameLayout>

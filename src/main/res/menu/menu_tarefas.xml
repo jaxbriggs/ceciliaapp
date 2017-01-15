@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/action_tarefas"
+        android:icon="@drawable/ic_brush_white_48dp"
+        android:title="Tarefas"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_avaliacoes"
+        android:icon="@drawable/ic_star_border_white_48dp"
+        android:title="Avaliações"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_grupos"
+        android:icon="@drawable/ic_people_white_48dp"
+        android:title="Grupos"
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_sair"
+        android:icon="@drawable/ic_exit_to_app_white_48dp"
+        android:title="Sair"
+        app:showAsAction="ifRoom"/>
+
+
+    <!-- Settings, should always be in the overflow -->
+    <!--
+    <item android:id="@+id/action_grupos"
+        android:title="Grupos"
+        app:showAsAction="never"/>
+    -->
+
+</menu>

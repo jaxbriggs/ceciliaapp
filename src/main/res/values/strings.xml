@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">CeciliaApp</string>
+    <string name="title_activity_tarefas">TarefasActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_avaliacoes">AvaliacoesActivity</string>
+    <string name="title_activity_avaliacoes_detalhes">AvaliacoesDetalhesActivity</string>
+    <string name="title_activity_nova_tarefa">NovaTarefaActivity</string>
+    <string name="app_host">br.com.carlos.ceciliaapp.</string>
+
+    <!--TESTE-->
+    <string-array name="periodicidades_array">
+        <item>Diária</item>
+        <item>Semanal</item>
+        <item>Mensal</item>
+        <item>Customizado</item>
+    </string-array>
+
+</resources>

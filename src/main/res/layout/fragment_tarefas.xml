@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    tools:context="br.com.carlos.ceciliaapp.fragment.TarefasFragment"
+    android:background="#CFCFCF">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/grupos_tarefas_recyclerView"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>

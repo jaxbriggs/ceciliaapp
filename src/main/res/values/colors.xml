@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorTitulo">#33CCFF</color>
+
+    <color name="colorPrimary">#00BCD4</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#04AAD4</color>
+
+    <color name="colortSlidingTabs">#00A2D4</color>
+    <color name="colortFabButtons">#04AAD4</color>
+
+</resources>

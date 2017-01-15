@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <!--Nome do comentarista-->
+    <TextView
+        android:id="@+id/txtTituloUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Luiz Felipe"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/holo_red_light"
+        android:textStyle="bold"
+        android:textSize="18sp"/>
+
+    <!--Data/hora do comentario-->
+    <RelativeLayout
+        android:id="@+id/txtDataComentarioContainer"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtDataComentarioValor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="29/02/2016 9:39PM"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/black" />
+
+    </RelativeLayout>
+
+    <!--Comentario-->
+    <LinearLayout
+        android:id="@+id/comentarioContainer"
+        android:layout_below="@+id/txtTituloUsuario"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtComentarioValor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla"
+            android:textColor="@android:color/black"
+            android:textSize="15dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
