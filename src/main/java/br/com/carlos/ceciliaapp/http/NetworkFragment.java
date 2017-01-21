@@ -21,6 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import br.com.carlos.ceciliaapp.Application;
 import br.com.carlos.ceciliaapp.enumeration.HttpMethod;
 
 /**
@@ -229,6 +230,10 @@ public class NetworkFragment extends Fragment {
                 connection.setConnectTimeout(3000);
                 // For this use case, set HTTP method to GET.
                 connection.setRequestMethod(method.name());
+
+                if(Application.currentUser != null) {
+                    connection.setRequestProperty("Authorization", Application.currentUser.getToken());
+                }
                 connection.setRequestProperty("Content-Type", "application/json");
                 connection.setRequestProperty("charset", "utf-8");
                 // Already true by default but setting just in case; needs to be true since this request

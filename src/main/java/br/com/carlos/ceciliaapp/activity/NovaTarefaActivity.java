@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -100,7 +101,6 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
 
                     DatePickerDialog mDatePicker=new DatePickerDialog(NovaTarefaActivity.this, new DatePickerDialog.OnDateSetListener() {
                         public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-
                             Calendar c = Calendar.getInstance();
                             c.set(selectedyear, selectedmonth, selectedday);
                             customizadoInicioDate = c.getTime();
@@ -168,7 +168,7 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
                     periodicidade.setDiaSemana(null);
                     periodicidade.setDiaMes(null);
                     periodicidade.setDiaPartir(null);
-                    periodicidade.setPasso(null);
+                    periodicidade.setPasso((short)1);
                 } else if(spinnerPeriodicidadeTarefa.getSelectedItemPosition() == 1) {
                     periodicidade.setDiaSemana((short)(spinnerDiaSemana.getSelectedItemPosition()+1));
                     periodicidade.setDiaMes(null);
@@ -189,9 +189,9 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
                 tarefa.setPeriodicidade(periodicidade);
 
                 try {
-                //Object to JSON in String
-                String tarefaJson = mapper.writeValueAsString(tarefa);
-                JSONObject params = new JSONObject();
+                    //Object to JSON in String
+                    String tarefaJson = mapper.writeValueAsString(tarefa);
+                    JSONObject params = new JSONObject();
 
                     params.put("tarefa", tarefaJson);
 
@@ -224,6 +224,7 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
         int id = item.getItemId();
 
         if (id == R.id.action_voltar) {
+            finish();
             return true;
         }
 
@@ -251,6 +252,37 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
     @Override
     public void updateFromDownload(Object result) {
 
+        JSONObject obj = null;
+
+        try {
+            String json = result.toString();
+            obj = new JSONObject((new JSONObject(json)).getString("response"));
+            if(obj.getInt("status") == 200) {
+                Toast.makeText(NovaTarefaActivity.this, obj.getString("body"), Toast.LENGTH_SHORT).show();
+                limparForm();
+            } else {
+                Toast.makeText(NovaTarefaActivity.this, "Falha ao cadastrar tarefa: " + obj.getString("body"), Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception ex) {
+            Toast.makeText(NovaTarefaActivity.this, "Falha ao cadastrar tarefa.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void limparForm(){
+        this.edtxtTituloNovaTarefa.setText("");
+
+        this.spinnerPeriodicidadeTarefa.setSelection(0);
+        periodoCustomizadoContainer.setVisibility(View.GONE);
+        periodoSemanalContainer.setVisibility(View.GONE);
+        periodoMensalContainer.setVisibility(View.GONE);
+        edtxtPeriodoInicio.setText("");
+        edtxtPeriodoIntervalo.setText("");
+        edtxtDiaMes.setText("");
+        spinnerDiaSemana.setSelection(0);
+
+        this.spinnerTarefaGrupo.setSelection(0);
+        this.spinnerTarefaResponsavel.setSelection(0);
     }
 
     @Override

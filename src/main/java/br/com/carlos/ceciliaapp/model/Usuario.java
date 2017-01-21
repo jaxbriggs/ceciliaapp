@@ -1,5 +1,21 @@
 package br.com.carlos.ceciliaapp.model;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.util.Base64;
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.LinkedHashMap;
+
+import br.com.carlos.ceciliaapp.BuildConfig;
+import br.com.carlos.ceciliaapp.activity.LoginActivity;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+
 /**
  * Created by Carlos Henrique on 1/7/2017.
  */
@@ -43,8 +59,15 @@ public class Usuario {
     }
 
     public void setToken(String token) {
+
+        byte[] decoded = Base64.decode(BuildConfig.SECRET_KEY, Base64.DEFAULT);
+
+        Claims claims = Jwts.parser()
+                .setSigningKey(decoded)
+                .parseClaimsJws(token).getBody();
+
         this.token = token;
-        this.id = 666;
-        this.nome = "Zeca";
+        this.id = (int)((LinkedHashMap)claims.get("data")).get("usuarioId");
+        this.nome = ((LinkedHashMap)claims.get("data")).get("usuarioNome").toString();
     }
 }
