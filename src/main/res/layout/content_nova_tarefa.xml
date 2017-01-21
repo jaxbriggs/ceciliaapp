@@ -54,73 +54,142 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <!--Inputs de periodo customizado-->
             <LinearLayout
-                android:id="@+id/periodoCustomizadoContainer"
-                android:layout_width="wrap_content"
+                android:id="@+id/volatilePeriodicidadeContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/spinnerPeriodicidadeTarefa"
-                android:visibility="gone">
-
-                <!--Inicio-->
-                <RelativeLayout
-                    android:id="@+id/periodoCustomizadoInicioContainer"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
+                android:layout_below="@+id/spinnerPeriodicidadeTarefa">
+                <!--Inputs de periodo customizado-->
+                <LinearLayout
+                    android:id="@+id/periodoCustomizadoContainer"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true">
+                    android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/txtPeriodicidadeInicio"
-                        android:layout_width="match_parent"
+                    <!--Inicio-->
+                    <RelativeLayout
+                        android:id="@+id/periodoCustomizadoInicioContainer"
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_weight="50"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="Iniciar à partir do dia:" />
+                        android:layout_alignParentLeft="true">
 
-                    <EditText
-                        android:id="@+id/edtxtPeriodoInicio"
-                        android:layout_below="@+id/txtPeriodicidadeInicio"
-                        android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/txtPeriodicidadeInicio"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Iniciar à partir do dia:" />
+
+                        <EditText
+                            android:id="@+id/edtxtPeriodoInicio"
+                            android:layout_below="@+id/txtPeriodicidadeInicio"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Dia de início"
+                            android:inputType="date"
+                            android:maxLines="1" />
+
+                    </RelativeLayout>
+
+                    <!--Intervalo-->
+                    <RelativeLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_weight="50"
                         android:layout_height="wrap_content"
-                        android:hint="Dia de início"
-                        android:inputType="date"
-                        android:maxLines="1" />
+                        android:layout_toRightOf="@+id/periodoCustomizadoInicioContainer">
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/txtPeriodicidadeIntervalo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_alignParentRight="true"
+                            android:text="Intervalo em dias:" />
 
-                <!--Intervalo-->
-                <RelativeLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_weight="50"
+                        <EditText
+                            android:id="@+id/edtxtPeriodoIntervalo"
+                            android:layout_below="@+id/txtPeriodicidadeIntervalo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:hint="Intervalo"
+                            android:inputType="number"
+                            android:maxLines="1" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <!--Inputs de periodo semanal-->
+                <LinearLayout
+                    android:id="@+id/periodoSemanalContainer"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/periodoCustomizadoInicioContainer">
+                    android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/txtPeriodicidadeIntervalo"
+                    <RelativeLayout
+                        android:id="@+id/periodoSemanalDiaContainer"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_alignParentRight="true"
-                        android:text="Intervalo em dias:" />
+                        android:layout_height="wrap_content">
 
-                    <EditText
-                        android:id="@+id/edtxtPeriodoIntervalo"
-                        android:layout_below="@+id/txtPeriodicidadeIntervalo"
+                        <TextView
+                            android:id="@+id/txtDiaSemana"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Selecione o dia da semana:" />
+
+                        <Spinner
+                            android:layout_below="@+id/txtDiaSemana"
+                            android:id="@+id/spinnerDiaSemana"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/dia_semana_array" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <!--Inputs de periodo mensal-->
+                <LinearLayout
+                    android:id="@+id/periodoMensalContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:id="@+id/periodoMensalDiaContainer"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:hint="Intervalo"
-                        android:inputType="number"
-                        android:maxLines="1" />
+                        android:layout_height="wrap_content">
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/txtDiaMes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Digite o dia da mês:" />
+
+                        <EditText
+                            android:id="@+id/edtxtDiaMes"
+                            android:layout_below="@+id/txtDiaMes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="2"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <TextView
-                android:layout_below="@+id/periodoCustomizadoContainer"
+                android:layout_below="@+id/volatilePeriodicidadeContainer"
                 android:id="@+id/txtTarefaGrupo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

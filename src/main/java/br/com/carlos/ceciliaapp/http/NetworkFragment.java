@@ -29,7 +29,7 @@ import br.com.carlos.ceciliaapp.enumeration.HttpMethod;
 public class NetworkFragment extends Fragment {
 
     private static final boolean IS_PRODUCTION = false;
-    private static final String API_BASE = IS_PRODUCTION ? "" : "/ceciliaapp-api/";
+    private static final String API_BASE = IS_PRODUCTION ? "" : "http://192.168.1.42:80/ceciliaapp-api/";
 
     public static final String TAG = "NetworkFragment";
 
