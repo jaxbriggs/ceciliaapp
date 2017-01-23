@@ -60,14 +60,19 @@ public class Usuario {
 
     public void setToken(String token) {
 
-        byte[] decoded = Base64.decode(BuildConfig.SECRET_KEY, Base64.DEFAULT);
+        if(token != null) {
+            byte[] decoded = Base64.decode(BuildConfig.SECRET_KEY, Base64.DEFAULT);
 
-        Claims claims = Jwts.parser()
-                .setSigningKey(decoded)
-                .parseClaimsJws(token).getBody();
+            Claims claims = Jwts.parser()
+                    .setSigningKey(decoded)
+                    .parseClaimsJws(token).getBody();
 
-        this.token = token;
-        this.id = (int)((LinkedHashMap)claims.get("data")).get("usuarioId");
-        this.nome = ((LinkedHashMap)claims.get("data")).get("usuarioNome").toString();
+            this.token = token;
+            this.id = (int) ((LinkedHashMap) claims.get("data")).get("usuarioId");
+            this.nome = ((LinkedHashMap) claims.get("data")).get("usuarioNome").toString();
+        } else {
+            this.token = null;
+        }
+
     }
 }

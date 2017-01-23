@@ -17,9 +17,12 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Method;
+
 import br.com.carlos.ceciliaapp.Application;
 import br.com.carlos.ceciliaapp.R;
 import br.com.carlos.ceciliaapp.enumeration.HttpMethod;
+import br.com.carlos.ceciliaapp.enumeration.RequestAction;
 import br.com.carlos.ceciliaapp.http.DownloadCallback;
 import br.com.carlos.ceciliaapp.http.NetworkFragment;
 import br.com.carlos.ceciliaapp.model.Usuario;
@@ -50,7 +53,6 @@ public class LoginActivity extends AppCompatActivity implements DownloadCallback
 
         loadViews();
 
-        //Teste
         mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), "user/login?XDEBUG_SESSION_START=CARLOS-HENRIQUE$");
 
         btnEntrar.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements DownloadCallback
     private void startDownload(HttpMethod method, JSONObject output) {
         if (!mDownloading && mNetworkFragment != null) {
             // Execute the async download.
-            mNetworkFragment.startDownload(method, output);
+            mNetworkFragment.startDownload(method, output, RequestAction.FAZER_LOGIN);
             mDownloading = true;
             showProgress();
         }
@@ -110,44 +112,50 @@ public class LoginActivity extends AppCompatActivity implements DownloadCallback
     }
 
     @Override
-    public void updateFromDownload(Object result) {
-        JSONObject obj = null;
+    public void updateFromDownload(Object result, RequestAction actionPerformed) {
 
-        try {
-            String json = result.toString();
-            obj = new JSONObject(json);
-            String token = obj.getString("token");
+        switch (actionPerformed){
+            case FAZER_LOGIN:
+                JSONObject obj = null;
 
-            Application.currentUser = new Usuario();
-            Application.currentUser.setToken(token);
-            Application.currentUser.setLogin(edtxtLogin.getText().toString());
-
-            if(chkContinuarConectado.isChecked()){
-                SharedPreferences.Editor editor = Application.preferences.edit();
-                editor.putLong(getString(R.string.app_host)+"CURRENT_USER_ID", Application.currentUser.getId());
-                editor.putString(getString(R.string.app_host) + "CURRENT_USER_NAME", Application.currentUser.getNome());
-                editor.putString(getString(R.string.app_host) + "CURRENT_USER_LOGIN", Application.currentUser.getLogin());
-                editor.putString(getString(R.string.app_host) + "CURRENT_USER_TOKEN", Application.currentUser.getToken());
-                editor.commit();
-            }
-
-            gotoTarefasActivity();
-
-        } catch (JSONException ex) {
-
-            if(obj == null){
-                Toast.makeText(LoginActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
-            } else {
                 try {
-                    Toast.makeText(LoginActivity.this, obj.getJSONObject("response").getString("body"), Toast.LENGTH_SHORT).show();
-                } catch (Exception ex2) {
-                    Toast.makeText(LoginActivity.this, "Resposta do servidor inválida.", Toast.LENGTH_SHORT).show();
-                }
-            }
+                    String json = result.toString();
+                    obj = new JSONObject(json);
+                    String token = obj.getString("token");
 
-        } catch (Exception ex) {
-            Toast.makeText(LoginActivity.this, "Falha! Tente novamente.", Toast.LENGTH_SHORT).show();
+                    Application.currentUser = new Usuario();
+                    Application.currentUser.setToken(token);
+                    Application.currentUser.setLogin(edtxtLogin.getText().toString());
+
+                    if(chkContinuarConectado.isChecked()){
+                        SharedPreferences.Editor editor = Application.preferences.edit();
+                        editor.putLong(getString(R.string.app_host)+"CURRENT_USER_ID", Application.currentUser.getId());
+                        editor.putString(getString(R.string.app_host) + "CURRENT_USER_NAME", Application.currentUser.getNome());
+                        editor.putString(getString(R.string.app_host) + "CURRENT_USER_LOGIN", Application.currentUser.getLogin());
+                        editor.putString(getString(R.string.app_host) + "CURRENT_USER_TOKEN", Application.currentUser.getToken());
+                        editor.commit();
+                    }
+
+                    gotoTarefasActivity();
+
+                } catch (JSONException ex) {
+
+                    if(obj == null){
+                        Toast.makeText(LoginActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        try {
+                            Toast.makeText(LoginActivity.this, obj.getJSONObject("response").getString("body"), Toast.LENGTH_SHORT).show();
+                        } catch (Exception ex2) {
+                            Toast.makeText(LoginActivity.this, "Resposta do servidor inválida.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                } catch (Exception ex) {
+                    Toast.makeText(LoginActivity.this, "Falha! Tente novamente.", Toast.LENGTH_SHORT).show();
+                }
+            break;
         }
+
     }
 
     @Override

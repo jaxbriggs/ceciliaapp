@@ -1,5 +1,7 @@
 package br.com.carlos.ceciliaapp.model;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -12,6 +14,7 @@ public class Tarefa {
     private TarefaPeriodicidade periodicidade;
     private Grupo grupo;
     private Usuario responsavel;
+    private Long usuarioId;
     private Date dtCadastro;
 
     public Long getId() {
@@ -61,4 +64,13 @@ public class Tarefa {
     public void setDtCadastro(Date dtCadastro) {
         this.dtCadastro = dtCadastro;
     }
+
+    public Long getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
 }

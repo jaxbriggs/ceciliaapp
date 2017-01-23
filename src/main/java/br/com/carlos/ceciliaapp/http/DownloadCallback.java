@@ -2,6 +2,11 @@ package br.com.carlos.ceciliaapp.http;
 
 import android.net.NetworkInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.carlos.ceciliaapp.enumeration.RequestAction;
+
 /**
  * Created by Carlos Henrique on 1/7/2017.
  */
@@ -18,7 +23,7 @@ public interface DownloadCallback<T> {
      * Indicates that the callback handler needs to update its appearance or information based on
      * the result of the task. Expected to be called from the main thread.
      */
-    void updateFromDownload(T result);
+    void updateFromDownload(T result, RequestAction actionPerformed);
 
     /**
      * Get the device's active network status in the form of a NetworkInfo object.

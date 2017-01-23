@@ -1,8 +1,11 @@
 package br.com.carlos.ceciliaapp.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -12,13 +15,31 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.carlos.ceciliaapp.Application;
 import br.com.carlos.ceciliaapp.R;
 import br.com.carlos.ceciliaapp.adapter.TarefasViewPagerAdapter;
+import br.com.carlos.ceciliaapp.enumeration.HttpMethod;
+import br.com.carlos.ceciliaapp.enumeration.RequestAction;
+import br.com.carlos.ceciliaapp.http.DownloadCallback;
+import br.com.carlos.ceciliaapp.http.NetworkFragment;
+import br.com.carlos.ceciliaapp.model.Tarefa;
 import br.com.carlos.ceciliaapp.slidingtabs.SlidingTabLayout;
 
-public class TarefasActivity extends AppCompatActivity {
+public class TarefasActivity extends AppCompatActivity implements DownloadCallback {
+
+    //Vars
+    private NetworkFragment mNetworkFragment;
+    private boolean mDownloading = false;
 
     ViewPager pager;
     TarefasViewPagerAdapter adapter;
@@ -29,6 +50,9 @@ public class TarefasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarefas);
+
+        mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), "user/tarefas?XDEBUG_SESSION_START=CARLOS-HENRIQUE$");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -63,6 +87,12 @@ public class TarefasActivity extends AppCompatActivity {
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startDownload(HttpMethod.GET, null, null, RequestAction.BUSCAR_USUARIO_TAREFAS);
     }
 
     @Override
@@ -122,4 +152,67 @@ public class TarefasActivity extends AppCompatActivity {
                 .setNegativeButton("Não", dialogClickListener).show();
     }
 
+    private void startDownload(HttpMethod method, JSONObject output, String url, RequestAction actionPerformed) {
+        if (!mDownloading && mNetworkFragment != null) {
+            // Execute the async download.
+            if(url != null){
+                mNetworkFragment.setmUrlString(url);
+            }
+            mNetworkFragment.startDownload(method, output, actionPerformed);
+            mDownloading = true;
+        }
+    }
+
+    @Override
+    public void updateFromDownload(Object result, RequestAction actionPerformed) {
+        switch (actionPerformed){
+
+            case BUSCAR_USUARIO_TAREFAS:
+                JSONArray array = null;
+
+                try {
+                    String json = result.toString();
+                    array = new JSONArray(json);
+
+                    ObjectMapper mapper = new ObjectMapper();
+                    List<Tarefa> tarefas = new ArrayList<>();
+                    for(int i = 0; i < array.length(); i++) {
+                        Tarefa t = mapper.readValue(array.getJSONObject(i).toString(), Tarefa.class);
+                        tarefas.add(t);
+                    }
+
+                    /*
+                    GrupoArrayAdapter grupoArrayAdapter = new GrupoArrayAdapter(NovaTarefaActivity.this, grupos);
+                    spinnerTarefaGrupo.setAdapter(grupoArrayAdapter);
+                    */
+
+                } catch (Exception ex) {
+                    Toast.makeText(TarefasActivity.this, "Falha buscar tarefas.", Toast.LENGTH_LONG).show();
+                }
+
+            break;
+
+        }
+    }
+
+    @Override
+    public NetworkInfo getActiveNetworkInfo() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo;
+    }
+
+    @Override
+    public void onProgressUpdate(int progressCode, int percentComplete) {
+        //NOT USED
+    }
+
+    @Override
+    public void finishDownloading() {
+        mDownloading = false;
+        if (mNetworkFragment != null) {
+            mNetworkFragment.cancelDownload();
+        }
+    }
 }

@@ -200,8 +200,7 @@
                 android:layout_below="@+id/txtTarefaGrupo"
                 android:id="@+id/spinnerTarefaGrupo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/periodicidades_array" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_below="@+id/spinnerTarefaGrupo"
@@ -215,8 +214,7 @@
                 android:layout_below="@+id/txtTarefaResponsavel"
                 android:id="@+id/spinnerTarefaResponsavel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/periodicidades_array" />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:layout_below="@id/spinnerTarefaResponsavel"
