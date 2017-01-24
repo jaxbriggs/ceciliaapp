@@ -8,16 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.ArrayMap;
-import android.util.Log;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
@@ -29,14 +19,9 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import br.com.carlos.ceciliaapp.Application;
 import br.com.carlos.ceciliaapp.enumeration.HttpMethod;
-import br.com.carlos.ceciliaapp.enumeration.RequestAction;
 
 /**
  * Created by Carlos Henrique on 1/7/2017.
@@ -44,7 +29,7 @@ import br.com.carlos.ceciliaapp.enumeration.RequestAction;
 public class NetworkFragment extends Fragment {
 
     private static final boolean IS_PRODUCTION = false;
-    private static final String API_BASE = IS_PRODUCTION ? "" : "http://192.168.1.42:80/ceciliaapp-api/";
+    public static final String API_BASE = IS_PRODUCTION ? "" : "http://192.168.1.42:80/ceciliaapp-api/";
 
     public static final String TAG = "NetworkFragment";
 
@@ -53,14 +38,6 @@ public class NetworkFragment extends Fragment {
     private DownloadCallback mCallback;
     private DownloadTask mDownloadTask;
     private String mUrlString;
-
-    public void setmUrlString(String mUrlString) {
-        this.mUrlString = API_BASE+mUrlString;
-    }
-
-    public String getmUrlString() {
-        return mUrlString;
-    }
 
     /**
      * Static initializer for NetworkFragment that sets the URL of the host it will be downloading
@@ -115,50 +92,12 @@ public class NetworkFragment extends Fragment {
     /**
      * Start non-blocking execution of DownloadTask.
      */
-    public void startDownload(HttpMethod requestMethod, JSONObject output, RequestAction actionPerformed) {
+    public void startDownload(HttpMethod requestMethod, JSONObject output) {
         cancelDownload();
         mDownloadTask = new DownloadTask(mCallback);
         mDownloadTask.setMethod(requestMethod);
         mDownloadTask.setOutput(output);
-        mDownloadTask.setActionPerformed(actionPerformed);
         mDownloadTask.execute(mUrlString);
-    }
-
-    public void simpleParallelRequest(String url, final RequestAction actionPerformed){
-
-        url = API_BASE+url;
-
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue((Context) mCallback);
-
-        final Map<String, String> mHeaders = new HashMap<>();
-        mHeaders.put("Authorization", Application.currentUser.getToken());
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if(mCallback != null) {
-                            ((DownloadCallback) mCallback).updateFromDownload(response, actionPerformed);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if(mCallback != null) {
-                            ((DownloadCallback) mCallback).updateFromDownload("Erro ao buscar dados: " + error.getMessage(), actionPerformed);
-                        }
-                    }
-                }){
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return mHeaders;
-            }
-        };
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
     }
 
     /**
@@ -178,7 +117,6 @@ public class NetworkFragment extends Fragment {
         private DownloadCallback<String> mCallback;
         private HttpMethod method;
         private JSONObject output;
-        private RequestAction actionPerformed;
 
         DownloadTask(DownloadCallback<String> callback) {
             setCallback(callback);
@@ -194,10 +132,6 @@ public class NetworkFragment extends Fragment {
 
         public void setMethod(HttpMethod method) {
             this.method = method;
-        }
-
-        public void setActionPerformed(RequestAction actionPerformed) {
-            this.actionPerformed = actionPerformed;
         }
 
         /**
@@ -227,7 +161,6 @@ public class NetworkFragment extends Fragment {
                         (networkInfo.getType() != ConnectivityManager.TYPE_WIFI
                                 && networkInfo.getType() != ConnectivityManager.TYPE_MOBILE)) {
                     // If no connectivity, cancel task and update Callback with null data.
-                    mCallback.updateFromDownload(null, actionPerformed);
                     cancel(true);
                 }
             }
@@ -263,9 +196,9 @@ public class NetworkFragment extends Fragment {
         protected void onPostExecute(Result result) {
             if (result != null && mCallback != null) {
                 if (result.mException != null) {
-                    mCallback.updateFromDownload(result.mException.getMessage(), actionPerformed);
+                    mCallback.updateFromDownload(result.mException.getMessage());
                 } else if (result.mResultValue != null) {
-                    mCallback.updateFromDownload(result.mResultValue, actionPerformed);
+                    mCallback.updateFromDownload(result.mResultValue);
                 }
                 mCallback.finishDownloading();
             }

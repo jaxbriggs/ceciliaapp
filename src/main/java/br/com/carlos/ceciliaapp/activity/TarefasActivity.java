@@ -22,17 +22,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.carlos.ceciliaapp.Application;
 import br.com.carlos.ceciliaapp.R;
 import br.com.carlos.ceciliaapp.adapter.TarefasViewPagerAdapter;
 import br.com.carlos.ceciliaapp.enumeration.HttpMethod;
-import br.com.carlos.ceciliaapp.enumeration.RequestAction;
 import br.com.carlos.ceciliaapp.http.DownloadCallback;
 import br.com.carlos.ceciliaapp.http.NetworkFragment;
-import br.com.carlos.ceciliaapp.model.Tarefa;
 import br.com.carlos.ceciliaapp.slidingtabs.SlidingTabLayout;
 
 public class TarefasActivity extends AppCompatActivity implements DownloadCallback {
@@ -50,6 +45,9 @@ public class TarefasActivity extends AppCompatActivity implements DownloadCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarefas);
+
+        //Atualiza os dados do banco local
+        Application.updateAllData(TarefasActivity.this);
 
         mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), "user/tarefas?XDEBUG_SESSION_START=CARLOS-HENRIQUE$");
 
@@ -92,7 +90,6 @@ public class TarefasActivity extends AppCompatActivity implements DownloadCallba
     @Override
     protected void onStart() {
         super.onStart();
-        startDownload(HttpMethod.GET, null, null, RequestAction.BUSCAR_USUARIO_TAREFAS);
     }
 
     @Override
@@ -152,47 +149,17 @@ public class TarefasActivity extends AppCompatActivity implements DownloadCallba
                 .setNegativeButton("Não", dialogClickListener).show();
     }
 
-    private void startDownload(HttpMethod method, JSONObject output, String url, RequestAction actionPerformed) {
+    private void startDownload(HttpMethod method, JSONObject output) {
         if (!mDownloading && mNetworkFragment != null) {
             // Execute the async download.
-            if(url != null){
-                mNetworkFragment.setmUrlString(url);
-            }
-            mNetworkFragment.startDownload(method, output, actionPerformed);
+            mNetworkFragment.startDownload(method, output);
             mDownloading = true;
         }
     }
 
     @Override
-    public void updateFromDownload(Object result, RequestAction actionPerformed) {
-        switch (actionPerformed){
+    public void updateFromDownload(Object result) {
 
-            case BUSCAR_USUARIO_TAREFAS:
-                JSONArray array = null;
-
-                try {
-                    String json = result.toString();
-                    array = new JSONArray(json);
-
-                    ObjectMapper mapper = new ObjectMapper();
-                    List<Tarefa> tarefas = new ArrayList<>();
-                    for(int i = 0; i < array.length(); i++) {
-                        Tarefa t = mapper.readValue(array.getJSONObject(i).toString(), Tarefa.class);
-                        tarefas.add(t);
-                    }
-
-                    /*
-                    GrupoArrayAdapter grupoArrayAdapter = new GrupoArrayAdapter(NovaTarefaActivity.this, grupos);
-                    spinnerTarefaGrupo.setAdapter(grupoArrayAdapter);
-                    */
-
-                } catch (Exception ex) {
-                    Toast.makeText(TarefasActivity.this, "Falha buscar tarefas.", Toast.LENGTH_LONG).show();
-                }
-
-            break;
-
-        }
     }
 
     @Override

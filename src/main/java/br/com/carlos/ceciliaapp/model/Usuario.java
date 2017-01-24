@@ -1,57 +1,63 @@
 package br.com.carlos.ceciliaapp.model;
 
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.util.Base64;
-import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import br.com.carlos.ceciliaapp.BuildConfig;
-import br.com.carlos.ceciliaapp.activity.LoginActivity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
 /**
  * Created by Carlos Henrique on 1/7/2017.
  */
+@DatabaseTable(tableName = "usuario")
 public class Usuario {
 
-    private long id;
-    private String nome;
-    private String login;
+    @JsonProperty("ID")
+    @DatabaseField(id = true, canBeNull = false, unique = true)
+    private long ID;
+
+    @JsonProperty("NOME")
+    @DatabaseField(canBeNull = false, width = 30, unique = true)
+    private String NOME;
+
+    @JsonProperty("LOGIN")
+    @DatabaseField(canBeNull = false, width = 30, unique = true)
+    private String LOGIN;
 
     private String token;
 
     public Usuario() {
     }
 
-    public long getId() {
-        return id;
+    public long getID() {
+        return ID;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setID(long ID) {
+        this.ID = ID;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNOME() {
+        return NOME;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNOME(String NOME) {
+        this.NOME = NOME;
     }
 
-    public String getLogin() {
-        return login;
+    public String getLOGIN() {
+        return LOGIN;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setLOGIN(String LOGIN) {
+        this.LOGIN = LOGIN;
     }
 
     public String getToken() {
@@ -68,8 +74,8 @@ public class Usuario {
                     .parseClaimsJws(token).getBody();
 
             this.token = token;
-            this.id = (int) ((LinkedHashMap) claims.get("data")).get("usuarioId");
-            this.nome = ((LinkedHashMap) claims.get("data")).get("usuarioNome").toString();
+            this.ID = (int) ((LinkedHashMap) claims.get("data")).get("usuarioId");
+            this.NOME = ((LinkedHashMap) claims.get("data")).get("usuarioNome").toString();
         } else {
             this.token = null;
         }
