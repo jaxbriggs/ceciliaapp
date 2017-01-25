@@ -26,7 +26,7 @@ public class ORMLiteHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "ceciliaapp.db";
 
     // Versão da base de dados.
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 21;
 
     // Caso você queria ter apenas uma instancia da base de dados.
     private static ORMLiteHelper mInstance = null;
@@ -35,10 +35,12 @@ public class ORMLiteHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Usuario, Integer> usuarioDao = null;
     private Dao<Grupo, Integer> grupoDao = null;
     private Dao<Tarefa, Integer> tarefaDao = null;
+    private Dao<TarefaPeriodicidade, Integer> tarefaPeriodicidadeDao = null;
 
     private RuntimeExceptionDao<Usuario, Integer> usuarioRuntimeDao = null;
     private RuntimeExceptionDao<Grupo, Integer> grupoRuntimeDao = null;
     private RuntimeExceptionDao<Tarefa, Integer> tarefaRuntimeDao = null;
+    private RuntimeExceptionDao<TarefaPeriodicidade, Integer> tarefaPeriodicidadeRuntimeDao = null;
 
     public ORMLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -118,5 +120,19 @@ public class ORMLiteHelper extends OrmLiteSqliteOpenHelper {
             tarefaRuntimeDao = getRuntimeExceptionDao(Tarefa.class);
         }
         return tarefaRuntimeDao;
+    }
+
+    public Dao<TarefaPeriodicidade, Integer> getTarefaPeriodicidadeDao() throws SQLException {
+        if (tarefaPeriodicidadeDao == null) {
+            tarefaPeriodicidadeDao = getDao(TarefaPeriodicidade.class);
+        }
+        return tarefaPeriodicidadeDao;
+    }
+
+    public RuntimeExceptionDao<TarefaPeriodicidade, Integer> getTarefaPeriodicidadeRuntimeDao() {
+        if (tarefaPeriodicidadeRuntimeDao == null) {
+            tarefaPeriodicidadeRuntimeDao = getRuntimeExceptionDao(TarefaPeriodicidade.class);
+        }
+        return tarefaPeriodicidadeRuntimeDao;
     }
 }

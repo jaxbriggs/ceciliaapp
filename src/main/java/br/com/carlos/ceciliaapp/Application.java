@@ -25,12 +25,17 @@ import br.com.carlos.ceciliaapp.enumeration.RequestAction;
 import br.com.carlos.ceciliaapp.http.NetworkFragment;
 import br.com.carlos.ceciliaapp.model.Grupo;
 import br.com.carlos.ceciliaapp.model.Tarefa;
+import br.com.carlos.ceciliaapp.model.TarefaPeriodicidade;
 import br.com.carlos.ceciliaapp.model.Usuario;
 
 /**
  * Created by Carlos Henrique on 1/7/2017.
  */
-public class Application {
+public class Application extends android.app.Application {
+
+    //Variaveis
+    public List<Tarefa> tarefasGerenciaveis;
+    public boolean isTarefasGerenciaveisChanged = false;
 
     private static final String host = "br.com.carlos.ceciliaapp.";
     public static Usuario currentUser;
@@ -62,16 +67,16 @@ public class Application {
         if(currentUser == null)
             currentUser = new Usuario();
 
-        currentUser.setID(preferences.getLong(host + "CURRENT_USER_ID", -1));
-        currentUser.setLOGIN(preferences.getString(host + "CURRENT_USER_LOGIN", null));
-        currentUser.setNOME(preferences.getString(host + "CURRENT_USER_NAME", null));
+        currentUser.setId(preferences.getLong(host + "CURRENT_USER_ID", -1));
+        currentUser.setLogin(preferences.getString(host + "CURRENT_USER_LOGIN", null));
+        currentUser.setNome(preferences.getString(host + "CURRENT_USER_NAME", null));
         currentUser.setToken(preferences.getString(host + "CURRENT_USER_TOKEN", null));
     }
 
     public static boolean hasUserLoggedIn(){
         loadCurrentUser();
-        if(currentUser.getID() != -1 && currentUser.getLOGIN() !=null
-                && currentUser.getNOME() != null && currentUser.getToken() != null){
+        if(currentUser.getId() != -1 && currentUser.getLogin() !=null
+                && currentUser.getNome() != null && currentUser.getToken() != null){
             return true;
         } else {
             currentUser = null;
@@ -110,10 +115,13 @@ public class Application {
             break;
             case BUSCAR_USUARIO_TAREFAS:
                 RuntimeExceptionDao<Tarefa, Integer> tarefaDao = ORMLiteHelper.getInstance(context).getTarefaRuntimeDao();
+                RuntimeExceptionDao<TarefaPeriodicidade, Integer> tarefaPeriodicidadeDao =
+                        ORMLiteHelper.getInstance(context).getTarefaPeriodicidadeRuntimeDao();
                 List<Tarefa> tarefas = mapper.readValue(response, new TypeReference<List<Tarefa>>(){});
                 if(tarefas != null) {
                     for (Tarefa t : tarefas) {
                         tarefaDao.createOrUpdate(t);
+                        tarefaPeriodicidadeDao.createOrUpdate(t.getPeriodicidade());
                     }
                 }
                 break;

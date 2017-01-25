@@ -25,14 +25,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.PropertyNamingStrategy;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -139,36 +136,36 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
 
                 ObjectMapper mapper = new ObjectMapper();
                 Tarefa tarefa = new Tarefa();
-                tarefa.setTITULO(edtxtTituloNovaTarefa.getText().toString());
+                tarefa.setTitulo(edtxtTituloNovaTarefa.getText().toString());
 
-                tarefa.setGRUPO((Grupo) spinnerTarefaGrupo.getSelectedItem());
-                tarefa.setRESPONSAVEL((Usuario) spinnerTarefaResponsavel.getSelectedItem());
-                tarefa.setID_USUARIO(Application.currentUser.getID());
+                tarefa.setGrupo((Grupo) spinnerTarefaGrupo.getSelectedItem());
+                tarefa.setResponsavel((Usuario) spinnerTarefaResponsavel.getSelectedItem());
+                tarefa.setId_usuario(Application.currentUser.getId());
 
                 TarefaPeriodicidade periodicidade = new TarefaPeriodicidade();
                 if(spinnerPeriodicidadeTarefa.getSelectedItemPosition() == 0){
-                    periodicidade.setID_DIA_SEMANA(null);
-                    periodicidade.setID_DIA_MES(null);
-                    periodicidade.setDT_A_PARTIR(null);
-                    periodicidade.setQT_PASSO((short)1);
+                    periodicidade.setId_dia_semana(null);
+                    periodicidade.setId_dia_mes(null);
+                    periodicidade.setDt_a_partir(null);
+                    periodicidade.setQt_passo((short)1);
                 } else if(spinnerPeriodicidadeTarefa.getSelectedItemPosition() == 1) {
-                    periodicidade.setID_DIA_SEMANA((short)(spinnerDiaSemana.getSelectedItemPosition()+1));
-                    periodicidade.setID_DIA_MES(null);
-                    periodicidade.setDT_A_PARTIR(null);
-                    periodicidade.setQT_PASSO(null);
+                    periodicidade.setId_dia_semana((short)(spinnerDiaSemana.getSelectedItemPosition()+1));
+                    periodicidade.setId_dia_mes(null);
+                    periodicidade.setDt_a_partir(null);
+                    periodicidade.setQt_passo(null);
                 } else if(spinnerPeriodicidadeTarefa.getSelectedItemPosition() == 2) {
-                    periodicidade.setID_DIA_SEMANA(null);
-                    periodicidade.setID_DIA_MES(Short.parseShort(edtxtDiaMes.getText().toString()));
-                    periodicidade.setDT_A_PARTIR(null);
-                    periodicidade.setQT_PASSO(null);
+                    periodicidade.setId_dia_semana(null);
+                    periodicidade.setId_dia_mes(Short.parseShort(edtxtDiaMes.getText().toString()));
+                    periodicidade.setDt_a_partir(null);
+                    periodicidade.setQt_passo(null);
                 } else if(spinnerPeriodicidadeTarefa.getSelectedItemPosition() == 3) {
-                    periodicidade.setID_DIA_SEMANA(null);
-                    periodicidade.setID_DIA_MES(null);
-                    periodicidade.setDT_A_PARTIR(customizadoInicioDate);
-                    periodicidade.setQT_PASSO(Short.parseShort(edtxtPeriodoIntervalo.getText().toString()));
+                    periodicidade.setId_dia_semana(null);
+                    periodicidade.setId_dia_mes(null);
+                    periodicidade.setDt_a_partir(customizadoInicioDate);
+                    periodicidade.setQt_passo(Short.parseShort(edtxtPeriodoIntervalo.getText().toString()));
                 }
 
-                tarefa.setPERIODICIDADE(periodicidade);
+                tarefa.setPeriodicidade(periodicidade);
 
                 try {
                     //Object to JSON in String
@@ -179,6 +176,7 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
 
                     startDownload(HttpMethod.PUT, params);
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     Toast.makeText(NovaTarefaActivity.this, "Erro ao converter tarefa para JSON.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -249,7 +247,13 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
                 if(data != null){
                     ObjectMapper mapper = new ObjectMapper();
                     Tarefa t = mapper.readValue(data, Tarefa.class);
-                    Log.d("TAREFA", t.getTITULO());
+
+                    ORMLiteHelper.getInstance(NovaTarefaActivity.this).getTarefaRuntimeDao()
+                        .create(t);
+
+                    ((Application)getApplicationContext()).tarefasGerenciaveis.add(t);
+                    ((Application)getApplicationContext()).isTarefasGerenciaveisChanged = true;
+
                 }
 
                 Toast.makeText(NovaTarefaActivity.this, obj.getString("body"), Toast.LENGTH_SHORT).show();
@@ -366,7 +370,7 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
         @Override
         public long getItemId(int position) {
             if(grupos != null && grupos.get(position) != null) {
-                return grupos.get(position).getID();
+                return grupos.get(position).getId();
             } else {
                 return -1L;
             }
@@ -381,7 +385,7 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
                 v = inflater.inflate(android.R.layout.simple_list_item_1, null);
             }
             TextView lbl = (TextView) v.findViewById(android.R.id.text1);
-            lbl.setText(grupos.get(position).getNOME());
+            lbl.setText(grupos.get(position).getNome());
             return v;
         }
 
@@ -395,7 +399,7 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
                 v = inflater.inflate(android.R.layout.simple_list_item_1, null);
             }
             TextView lbl = (TextView) v.findViewById(android.R.id.text1);
-            lbl.setText(grupos.get(position).getNOME());
+            lbl.setText(grupos.get(position).getNome());
             return v;
         }
     }
@@ -415,7 +419,7 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
         @Override
         public long getItemId(int position) {
             if(responsaveis != null && responsaveis.get(position) != null) {
-                return responsaveis.get(position).getID();
+                return responsaveis.get(position).getId();
             } else {
                 return -1L;
             }
@@ -430,7 +434,7 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
                 v = inflater.inflate(android.R.layout.simple_list_item_1, null);
             }
             TextView lbl = (TextView) v.findViewById(android.R.id.text1);
-            lbl.setText(responsaveis.get(position).getNOME() + " (" + responsaveis.get(position).getLOGIN() + ")");
+            lbl.setText(responsaveis.get(position).getNome() + " (" + responsaveis.get(position).getLogin() + ")");
             return v;
         }
 
@@ -444,7 +448,7 @@ public class NovaTarefaActivity extends AppCompatActivity implements DownloadCal
                 v = inflater.inflate(android.R.layout.simple_list_item_1, null);
             }
             TextView lbl = (TextView) v.findViewById(android.R.id.text1);
-            lbl.setText(responsaveis.get(position).getNOME() + " (" + responsaveis.get(position).getLOGIN() + ")");
+            lbl.setText(responsaveis.get(position).getNome() + " (" + responsaveis.get(position).getLogin() + ")");
             return v;
         }
     }

@@ -15,91 +15,103 @@ import java.util.Date;
 @DatabaseTable(tableName = "tarefa")
 public class Tarefa {
 
-    @JsonProperty("ID")
-    @DatabaseField(id = true, canBeNull = false, unique = true, columnName = "ID")
-    private Long ID;
+    @DatabaseField(id = true, canBeNull = false, unique = true)
+    private Long id;
 
-    @JsonProperty("TITULO")
     @DatabaseField(canBeNull = false, width = 30, unique = true)
-    private String TITULO;
+    private String titulo;
 
-    @JsonProperty("PERIODICIDADE")
-    @DatabaseField(canBeNull = false, foreign = true)
-    private TarefaPeriodicidade PERIODICIDADE;
+    @DatabaseField(
+            canBeNull = false,
+            foreign = true,
+            foreignAutoRefresh = true
+    )
+    private TarefaPeriodicidade periodicidade;
 
-    @JsonProperty("GRUPO")
-    @DatabaseField(canBeNull = false, foreign = true)
-    private Grupo GRUPO;
+    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
+    private Grupo grupo;
 
-    @JsonProperty("RESPONSAVEL")
-    @DatabaseField(canBeNull = false, foreign = true)
-    private Usuario RESPONSAVEL;
+    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
+    private Usuario responsavel;
 
-    @JsonProperty("USUARIO")
     @DatabaseField
-    private Long ID_USUARIO;
+    private Long id_usuario;
 
-    @JsonProperty("DT_CADASTRO")
     @DatabaseField(canBeNull = false)
-    private Date DT_CADASTRO;
+    private Date dt_cadastro;
 
     public Tarefa() {
     }
 
-    public Long getID() {
-        return ID;
+    public Long getId() {
+        return id;
     }
 
-    public void setID(Long ID) {
-        this.ID = ID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getTITULO() {
-        return TITULO;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setTITULO(String TITULO) {
-        this.TITULO = TITULO;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public TarefaPeriodicidade getPERIODICIDADE() {
-        return PERIODICIDADE;
+    public TarefaPeriodicidade getPeriodicidade() {
+        return periodicidade;
     }
 
-    public void setPERIODICIDADE(TarefaPeriodicidade PERIODICIDADE) {
-        this.PERIODICIDADE = PERIODICIDADE;
+    public void setPeriodicidade(TarefaPeriodicidade periodicidade) {
+        this.periodicidade = periodicidade;
     }
 
-    public Grupo getGRUPO() {
-        return GRUPO;
+    public Grupo getGrupo() {
+        return grupo;
     }
 
-    public void setGRUPO(Grupo GRUPO) {
-        this.GRUPO = GRUPO;
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 
-    public Usuario getRESPONSAVEL() {
-        return RESPONSAVEL;
+    public Usuario getResponsavel() {
+        return responsavel;
     }
 
-    public void setRESPONSAVEL(Usuario RESPONSAVEL) {
-        this.RESPONSAVEL = RESPONSAVEL;
+    public void setResponsavel(Usuario responsavel) {
+        this.responsavel = responsavel;
     }
 
-    public Long getID_USUARIO() {
-        return ID_USUARIO;
+    public Long getId_usuario() {
+        return id_usuario;
     }
 
-    public void setID_USUARIO(Long ID_USUARIO) {
-        this.ID_USUARIO = ID_USUARIO;
+    public void setId_usuario(Long id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
-    public Date getDT_CADASTRO() {
-        return DT_CADASTRO;
+    public Date getDt_cadastro() {
+        return dt_cadastro;
     }
 
-    public void setDT_CADASTRO(Date DT_CADASTRO) {
-        this.DT_CADASTRO = DT_CADASTRO;
+    public void setDt_cadastro(Date dt_cadastro) {
+        this.dt_cadastro = dt_cadastro;
     }
 
+    public String decidePeriodicidadeTitle(){
+
+        if(this.periodicidade.getId() == 1L){
+            return "Diária";
+        } else if(this.periodicidade.getDt_a_partir() != null && this.periodicidade.getQt_passo() != null){
+            return "Customizada";
+        } else if(this.periodicidade.getId_dia_mes() != null){
+            return "Mensal";
+        } else if(this.periodicidade.getId_dia_semana() != null){
+            return "Semanal";
+        }
+
+        return null;
+
+    }
 }

@@ -16,6 +16,9 @@ import br.com.carlos.ceciliaapp.fragment.TarefasFragment;
 public class TarefasViewPagerAdapter extends FragmentStatePagerAdapter {
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
+    TarefasFragment tab1 = new TarefasFragment();
+    MinhasTarefasFragment tab2 = new MinhasTarefasFragment();
+    GerenciarTarefasFragment tab3 = new GerenciarTarefasFragment();
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public TarefasViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb) {
@@ -32,15 +35,13 @@ public class TarefasViewPagerAdapter extends FragmentStatePagerAdapter {
 
         if(position == 0)
         {
-            TarefasFragment tab1 = new TarefasFragment();
             return tab1;
         }
         else if(position == 1)
         {
-            MinhasTarefasFragment tab2 = new MinhasTarefasFragment();
             return tab2;
         } else {
-            GerenciarTarefasFragment tab3 = new GerenciarTarefasFragment();
+
             return tab3;
         }
 

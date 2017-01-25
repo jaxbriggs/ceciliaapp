@@ -15,19 +15,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import br.com.carlos.ceciliaapp.Application;
 import br.com.carlos.ceciliaapp.R;
 import br.com.carlos.ceciliaapp.adapter.TarefasViewPagerAdapter;
+import br.com.carlos.ceciliaapp.dao.ORMLiteHelper;
 import br.com.carlos.ceciliaapp.enumeration.HttpMethod;
+import br.com.carlos.ceciliaapp.fragment.GerenciarTarefasFragment;
 import br.com.carlos.ceciliaapp.http.DownloadCallback;
 import br.com.carlos.ceciliaapp.http.NetworkFragment;
+import br.com.carlos.ceciliaapp.model.Tarefa;
 import br.com.carlos.ceciliaapp.slidingtabs.SlidingTabLayout;
 
 public class TarefasActivity extends AppCompatActivity implements DownloadCallback {
@@ -41,6 +44,16 @@ public class TarefasActivity extends AppCompatActivity implements DownloadCallba
     SlidingTabLayout tabs;
     CharSequence Titles[]={"DISPONÍVEIS","MINHAS","GERENCIAR"};
 
+    public FragmentRefreshListener getFragmentRefreshListener() {
+        return fragmentRefreshListener;
+    }
+
+    public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener) {
+        this.fragmentRefreshListener = fragmentRefreshListener;
+    }
+
+    private FragmentRefreshListener fragmentRefreshListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +61,13 @@ public class TarefasActivity extends AppCompatActivity implements DownloadCallba
 
         //Atualiza os dados do banco local
         Application.updateAllData(TarefasActivity.this);
+
+        //Pega tarefas gerenciaveis
+        RuntimeExceptionDao<Tarefa, Integer> tarefaDao =
+                ORMLiteHelper.getInstance(TarefasActivity.this).getTarefaRuntimeDao();
+        List<Tarefa> tarefas = tarefaDao.queryForAll();
+
+        ((Application)getApplicationContext()).tarefasGerenciaveis = tarefas;
 
         mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), "user/tarefas?XDEBUG_SESSION_START=CARLOS-HENRIQUE$");
 
@@ -88,8 +108,11 @@ public class TarefasActivity extends AppCompatActivity implements DownloadCallba
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
+        if(getFragmentRefreshListener() != null && ((Application)getApplicationContext()).isTarefasGerenciaveisChanged) {
+            getFragmentRefreshListener().onRefresh();
+        }
     }
 
     @Override
@@ -181,5 +204,9 @@ public class TarefasActivity extends AppCompatActivity implements DownloadCallba
         if (mNetworkFragment != null) {
             mNetworkFragment.cancelDownload();
         }
+    }
+
+    public interface FragmentRefreshListener {
+        void onRefresh();
     }
 }

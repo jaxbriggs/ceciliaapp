@@ -13,42 +13,39 @@ import java.util.Date;
 @DatabaseTable(tableName = "grupo")
 public class Grupo {
 
-    @JsonProperty("ID")
     @DatabaseField(id = true, canBeNull = false, unique = true)
-    private Long ID;
+    private Long id;
 
-    @JsonProperty("NOME")
     @DatabaseField(canBeNull = false, width = 30, unique = true)
-    private String NOME;
+    private String nome;
 
-    @JsonProperty("DT_CADASTRO")
     @DatabaseField(canBeNull = false)
-    private Date DT_CADASTRO;
+    private Date dt_cadastro;
 
     public Grupo() {
     }
 
-    public Long getID() {
-        return ID;
+    public Long getId() {
+        return id;
     }
 
-    public void setID(Long ID) {
-        this.ID = ID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getNOME() {
-        return NOME;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNOME(String NOME) {
-        this.NOME = NOME;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public Date getDT_CADASTRO() {
-        return DT_CADASTRO;
+    public Date getDt_cadastro() {
+        return dt_cadastro;
     }
 
-    public void setDT_CADASTRO(Date DT_CADASTRO) {
-        this.DT_CADASTRO = DT_CADASTRO;
+    public void setDt_cadastro(Date dt_cadastro) {
+        this.dt_cadastro = dt_cadastro;
     }
 }

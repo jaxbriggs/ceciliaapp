@@ -50,7 +50,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="Limpar o quarto"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/holo_red_light"
             android:textStyle="bold"
@@ -89,7 +88,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/txtDonoLabel"
+                android:id="@+id/txtPeriodicidadeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Periodicidade: "
@@ -98,10 +97,9 @@
                 android:textSize="15dp"/>
 
             <TextView
-                android:id="@+id/txtDonoValor"
+                android:id="@+id/txtPeriodicidadeValor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Semanal"
                 android:textColor="@android:color/black"
                 android:textSize="15dp"/>
 

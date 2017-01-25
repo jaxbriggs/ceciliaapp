@@ -19,45 +19,42 @@ import io.jsonwebtoken.Jwts;
 @DatabaseTable(tableName = "usuario")
 public class Usuario {
 
-    @JsonProperty("ID")
     @DatabaseField(id = true, canBeNull = false, unique = true)
-    private long ID;
+    private long id;
 
-    @JsonProperty("NOME")
     @DatabaseField(canBeNull = false, width = 30, unique = true)
-    private String NOME;
+    private String nome;
 
-    @JsonProperty("LOGIN")
     @DatabaseField(canBeNull = false, width = 30, unique = true)
-    private String LOGIN;
+    private String login;
 
     private String token;
 
     public Usuario() {
     }
 
-    public long getID() {
-        return ID;
+    public long getId() {
+        return id;
     }
 
-    public void setID(long ID) {
-        this.ID = ID;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getNOME() {
-        return NOME;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNOME(String NOME) {
-        this.NOME = NOME;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getLOGIN() {
-        return LOGIN;
+    public String getLogin() {
+        return login;
     }
 
-    public void setLOGIN(String LOGIN) {
-        this.LOGIN = LOGIN;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getToken() {
@@ -74,8 +71,8 @@ public class Usuario {
                     .parseClaimsJws(token).getBody();
 
             this.token = token;
-            this.ID = (int) ((LinkedHashMap) claims.get("data")).get("usuarioId");
-            this.NOME = ((LinkedHashMap) claims.get("data")).get("usuarioNome").toString();
+            this.id = (int) ((LinkedHashMap) claims.get("data")).get("usuarioId");
+            this.nome = ((LinkedHashMap) claims.get("data")).get("usuarioNome").toString();
         } else {
             this.token = null;
         }

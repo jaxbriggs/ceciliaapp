@@ -1,6 +1,5 @@
 package br.com.carlos.ceciliaapp.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -13,66 +12,61 @@ import java.util.Date;
 @DatabaseTable(tableName = "tarefa_periodicidade")
 public class TarefaPeriodicidade {
 
-    @JsonProperty("ID")
     @DatabaseField(id = true, canBeNull = false, unique = true)
-    private Long ID;
+    private Long id;
 
-    @JsonProperty("ID_DIA_SEMANA")
     @DatabaseField
-    private Short ID_DIA_SEMANA;
+    private Short id_dia_semana;
 
-    @JsonProperty("ID_DIA_MES")
     @DatabaseField
-    private Short ID_DIA_MES;
+    private Short id_dia_mes;
 
-    @JsonProperty("DT_A_PARTIR")
     @DatabaseField
-    private Date DT_A_PARTIR;
+    private Date dt_a_partir;
 
-    @JsonProperty("QT_PASSO")
     @DatabaseField
-    private Short QT_PASSO;
+    private Short qt_passo;
 
     public TarefaPeriodicidade() {
     }
 
-    public Long getID() {
-        return ID;
+    public Long getId() {
+        return id;
     }
 
-    public void setID(Long ID) {
-        this.ID = ID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Short getID_DIA_SEMANA() {
-        return ID_DIA_SEMANA;
+    public Short getId_dia_semana() {
+        return id_dia_semana;
     }
 
-    public void setID_DIA_SEMANA(Short ID_DIA_SEMANA) {
-        this.ID_DIA_SEMANA = ID_DIA_SEMANA;
+    public void setId_dia_semana(Short id_dia_semana) {
+        this.id_dia_semana = id_dia_semana;
     }
 
-    public Short getID_DIA_MES() {
-        return ID_DIA_MES;
+    public Short getId_dia_mes() {
+        return id_dia_mes;
     }
 
-    public void setID_DIA_MES(Short ID_DIA_MES) {
-        this.ID_DIA_MES = ID_DIA_MES;
+    public void setId_dia_mes(Short id_dia_mes) {
+        this.id_dia_mes = id_dia_mes;
     }
 
-    public Date getDT_A_PARTIR() {
-        return DT_A_PARTIR;
+    public Date getDt_a_partir() {
+        return dt_a_partir;
     }
 
-    public void setDT_A_PARTIR(Date DT_A_PARTIR) {
-        this.DT_A_PARTIR = DT_A_PARTIR;
+    public void setDt_a_partir(Date dt_a_partir) {
+        this.dt_a_partir = dt_a_partir;
     }
 
-    public Short getQT_PASSO() {
-        return QT_PASSO;
+    public Short getQt_passo() {
+        return qt_passo;
     }
 
-    public void setQT_PASSO(Short QT_PASSO) {
-        this.QT_PASSO = QT_PASSO;
+    public void setQt_passo(Short qt_passo) {
+        this.qt_passo = qt_passo;
     }
 }

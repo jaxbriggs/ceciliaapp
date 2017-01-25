@@ -120,13 +120,13 @@ public class LoginActivity extends AppCompatActivity implements DownloadCallback
 
             Application.currentUser = new Usuario();
             Application.currentUser.setToken(token);
-            Application.currentUser.setLOGIN(edtxtLogin.getText().toString());
+            Application.currentUser.setLogin(edtxtLogin.getText().toString());
 
             if(chkContinuarConectado.isChecked()){
                 SharedPreferences.Editor editor = Application.preferences.edit();
-                editor.putLong(getString(R.string.app_host)+"CURRENT_USER_ID", Application.currentUser.getID());
-                editor.putString(getString(R.string.app_host) + "CURRENT_USER_NAME", Application.currentUser.getNOME());
-                editor.putString(getString(R.string.app_host) + "CURRENT_USER_LOGIN", Application.currentUser.getLOGIN());
+                editor.putLong(getString(R.string.app_host)+"CURRENT_USER_ID", Application.currentUser.getId());
+                editor.putString(getString(R.string.app_host) + "CURRENT_USER_NAME", Application.currentUser.getNome());
+                editor.putString(getString(R.string.app_host) + "CURRENT_USER_LOGIN", Application.currentUser.getLogin());
                 editor.putString(getString(R.string.app_host) + "CURRENT_USER_TOKEN", Application.currentUser.getToken());
                 editor.commit();
             }

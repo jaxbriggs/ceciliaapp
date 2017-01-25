@@ -1,10 +1,17 @@
 package br.com.carlos.ceciliaapp.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 import br.com.carlos.ceciliaapp.R;
 import br.com.carlos.ceciliaapp.model.Tarefa;
@@ -14,24 +21,25 @@ import br.com.carlos.ceciliaapp.model.Tarefa;
  */
 public class GerenciarTarefasAdapter extends ArrayAdapter<Tarefa> implements View.OnClickListener {
 
-    private Tarefa[] dataSet;
+    private List<Tarefa> dataSet;
     Context mContext;
 
     // View lookup cache
     private static class ViewHolder {
+        TextView txtTituloTarefa;
+        TextView txtDataValor;
+        TextView txtPeriodicidadeValor;
         /*
-        TextView txtName;
         TextView txtType;
         TextView txtVersion;
         ImageView info;
         */
     }
 
-    public GerenciarTarefasAdapter(Tarefa[] data, Context context) {
+    public GerenciarTarefasAdapter(List<Tarefa> data, Context context) {
         super(context, R.layout.row_gerenciar_tarefas_item, data);
         this.dataSet = data;
         this.mContext=context;
-
     }
 
     @Override
@@ -69,14 +77,18 @@ public class GerenciarTarefasAdapter extends ArrayAdapter<Tarefa> implements Vie
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.row_gerenciar_tarefas_item, parent, false);
+
+            viewHolder.txtTituloTarefa = (TextView) convertView.findViewById(R.id.txtTituloTarefa);
+            viewHolder.txtDataValor = (TextView) convertView.findViewById(R.id.txtDataValor);
+
+            viewHolder.txtPeriodicidadeValor = (TextView) convertView.findViewById(R.id.txtPeriodicidadeValor);
             /*
-            viewHolder.txtName = (TextView) convertView.findViewById(R.id.name);
             viewHolder.txtType = (TextView) convertView.findViewById(R.id.type);
             viewHolder.txtVersion = (TextView) convertView.findViewById(R.id.version_number);
             viewHolder.info = (ImageView) convertView.findViewById(R.id.item_info);
             */
 
-            result=convertView;
+            //result=convertView;
 
             convertView.setTag(viewHolder);
         } else {
@@ -90,8 +102,11 @@ public class GerenciarTarefasAdapter extends ArrayAdapter<Tarefa> implements Vie
         lastPosition = position;
         */
 
+
+        viewHolder.txtTituloTarefa.setText(dataModel.getTitulo());
+        viewHolder.txtDataValor.setText(new SimpleDateFormat("dd/MM/yyyy").format(dataModel.getDt_cadastro()));
+        viewHolder.txtPeriodicidadeValor.setText(dataModel.decidePeriodicidadeTitle());
         /*
-        viewHolder.txtName.setText(dataModel.getName());
         viewHolder.txtType.setText(dataModel.getType());
         viewHolder.txtVersion.setText(dataModel.getVersion_number());
         viewHolder.info.setOnClickListener(this);
@@ -99,5 +114,22 @@ public class GerenciarTarefasAdapter extends ArrayAdapter<Tarefa> implements Vie
         */
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    public void updateDataset(List<Tarefa> tarefas) {
+        this.dataSet.clear();
+        this.dataSet.addAll(tarefas);
+        this.notifyDataSetChanged();
+    }
+
+    @Nullable
+    @Override
+    public Tarefa getItem(int position) {
+        return dataSet.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return dataSet.get(position).getId();
     }
 }
